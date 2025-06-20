@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "localTTS"
+version = "20250620"
+dependencies = [
+]
+description = "Your local TTS model inference framework."
+readme = "README.md"
+requires-python = ">= 3.8"
+license = { text = "MIT license" }
+authors = [
+    { name = "Kang Bo", email = "532901708@qq.com" }
+]
+
+[tool.setuptools]
+packages = ["localtts"]
