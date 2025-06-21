@@ -18,12 +18,18 @@ class KokoroTTS:
 
         self._log("Initializing model...")
         # print(f"repo id: {repo_id}")
-        model = KModel( model=model_path, config=config)
-
+        model = None
+        try:
+            model = KModel(repo_id='xxx', model=model_path, config=config)
+        except Exception as e:
+            model = KModel(model=model_path, config=config)
         self._log("Initializing pipeline...")
         
-        self.pipeline = KPipeline(lang_code=lang_code, model=model)
-
+        self.pipeline = None
+        try:
+            self.pipeline = KPipeline(repo_id='xxx', lang_code=lang_code, model=model)
+        except Exception as e:
+            self.pipeline = KPipeline(lang_code=lang_code, model=model)
         self._log("Loading voice...")
         self.voice = self.pipeline.load_single_voice(voice_path)
         
@@ -62,8 +68,8 @@ if __name__ == "__main__":
     config_path = './temp/kokoro-82M/config.json'
     voice_path = './temp/kokoro-82M/voices/af_heart.pt'
     output_path = './temp/result.wav'
-    
-    tts = KokoroTTS(model_path=model_path, config_path=config_path, voice_path=voice_path)
+    from localtts import KokoroTTS as TTS
+    tts = TTS(model_path=model_path, config_path=config_path, voice_path=voice_path)
 
     text = '''
     The sky above the port was the color of television, tuned to a dead channel.
@@ -75,12 +81,3 @@ if __name__ == "__main__":
     for path in paths:
         print(f"  → {path}")
     
-        text = '''
-    Printing, in the only sense with which we are at present concerned, differs from most if not from all the arts and crafts represented in the Exhibition.
-    '''
-
-    paths = tts.infer(text, output_path=output_path, return_paths=True, split_pattern=None)
-
-    print("✅ wav file output：")
-    for path in paths:
-        print(f"  → {path}")
